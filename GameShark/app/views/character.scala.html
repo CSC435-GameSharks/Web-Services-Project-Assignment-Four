@@ -1,0 +1,89 @@
+@(wowCharacter: WoWCharacter = null)
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>WoW Character</title>
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/WoWStyle.css")">
+</head>
+<body>
+  <h3>Player Character Info @wowCharacter.getName() SPACE @wowCharacter.getRealm()</h3>
+  <div>
+    <form action="@routes.WoWCharacterControl.getCharacter()" method="post">
+      <table>
+        <tr>
+          <td>
+            Character Name:
+          </td>
+          <td>
+            <input type="text" id="txtName" name="name"></br>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Realm Name:
+          </td>
+          <td>
+            <input type="text" id="txtRealm" name="realm"></br>
+          </td>
+        </tr>
+        <tr colspan="2">
+          <td colspan="2">
+            <button>Submit</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+    @if(wowCharacter.getName() != "null"){
+    <div class="mainDiv" >
+      <h2 class="characterTitle">
+        Character Profile
+      </h2>
+      <table class="charTable">
+        <tr>
+          <td class="mainDivPhoto" rowspan="5">
+            <img src="http://us.battle.net/static-render/us/@wowCharacter.getThumbnail()" />
+          </td>
+        </tr>
+        <tr>
+          <td class="nameCell">
+            @wowCharacter.getName()
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Level:&#160;@wowCharacter.getLevel()&#160;@wowCharacter.getRace()&#160;@wowCharacter.getCharClass()
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Realm:&#160;@wowCharacter.getRealm()
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Battlegroup:&#160;@wowCharacter.getBattleGroup()
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Honurable Kills:&#160;@wowCharacter.getHonorableKills()
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Achievement Points:&#160;@wowCharacter.getAchievementPoints()
+          </td>
+        </tr>
+      </table>
+    </div>
+    }else{
+    <div>
+      <span>No User Character Data</span>
+    </div>
+    }
+  </body>
+</html>
