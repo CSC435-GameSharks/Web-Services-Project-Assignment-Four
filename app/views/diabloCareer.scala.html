@@ -1,0 +1,42 @@
+@import Diablo.Career
+@import Diablo.AbbreviatedHero
+@import play.api.data._
+@import play.api.data.Forms._
+@(exists: Boolean, career: Career)
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> Diablo Characters Overview </title>
+</head>
+
+<body>
+    <form method="GET" action="DiabloCareer">
+            Battle Tag Name:
+            <input id="battleTagName" type="text" name="battleTagName">
+            </br>Battle Tag Code:
+            <input id="battleTagCode" type="text" name="battleTagCode">
+            </br>
+            <input type="submit" id="btnSubmit" value="Submit"></br>
+            </br>
+      </form>
+        @if(exists){
+            Battle Tag:         @career.getBattleTag()          </br>
+            Paragon Level       @career.getParagonLevel()       </br>
+            Number of Kills:                                    </br>
+            Monsters:           @career.getKills().getMonsters()</br>
+            Elites:             @career.getKills().getMonsters()</br>
+            Hardcore Monsters:  @career.getKills().getMonsters()</br>
+            Heroes:</br>
+            <dl>
+            @for(hero <- career.getHeroes()){
+                <dt>
+                    <a href="DiabloHero?battleID=@career.getBattleTag().replaceAll("#", "-")&hero=@hero.getId()">Name:    @hero.getName()</a></br>
+                </dt>
+                <dd> Level:  @hero.getLevel() </dd>
+                <dd> Dead:   @(if(hero.isDead()) "Yes" else "No")</dd>
+            }
+            </ul>
+        }
+</body>
+</html>

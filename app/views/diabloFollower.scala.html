@@ -1,0 +1,47 @@
+@import java.util.ArrayList
+@import Diablo.Follower
+@(exists: Boolean, follower: Follower)
+<html>
+    <head>
+        <link rel="stylesheet" href="/assets/css/Kellys.css">
+        <title>
+            @(if(exists) follower.getName() else "Follower")
+        </title>
+    </head>
+    <body>
+    <div id='rightside'>
+        <h1>  @(if(exists) follower.getName() else "Follower") </h1>
+        @if(!exists){
+            <img src="http://cdn2.gamefront.com/wp-content/uploads/2012/05/d3-26.jpg">
+        }else{@if(follower.getName().equals("Enchantress")){
+            <img src="http://vignette1.wikia.nocookie.net/diablo/images/b/bb/Enchantress.jpg/revision/latest?cb=20110513220214">
+        }else{@if(follower.getName().equals("Templar")){
+            <img src="http://vignette3.wikia.nocookie.net/diablo/images/0/02/Templar.jpg/revision/latest?cb=20110513220215">
+        }else{@if(follower.getName().equals("Scoundrel")){
+            <img src="http://vignette1.wikia.nocookie.net/diablo/images/3/3c/Scoundrel.jpg/revision/latest?cb=20110513220216">
+        }}}}
+        <div id="lvl">
+            <form method="GET" action="/DiabloFollower">
+                <select name="follower">
+                    <option value="enchantress">Enchantress</option>
+                    <option value="templar">Templar</option>
+                    <option value="scoundrel">Scoundrel</option>
+                </select> 
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+    @if(exists){
+    <div id="section">
+        <div id="skillsection">
+            @for(skill <- follower.getActiveSkills()){
+                <div class='skillImages' ><img src='@skill.IMAGE_URL_PREFIX@(skill.getIcon()).png'>
+                    <span><br><b>@skill.getName()</b>
+                    <p>@skill.getLevel()</p>
+                </div>
+            }
+        </div>
+    </div>
+    }
+    </body>
+</html>
