@@ -1,9 +1,18 @@
 package models;
 
+import java.util.*;
+import javax.persistence.*;
+
+import play.db.ebean.*;
+import play.data.format.*;
+import play.data.validation.*;
+
+
 /**
  * Created by kirito on 3/25/15.
  */
-public class WoWTalent {
+@Entity
+public class WoWTalent extends Model{
     private int lvl;
     private String sName;
     private int num;

@@ -1,0 +1,113 @@
+.navDiv{
+    width: 100%;
+    width:100vw;
+    position:absolute;
+    top:0;
+    left:0;
+    margin: 0 auto;
+}
+
+.topLvl{
+    width:24.7%;
+}
+
+.fill{
+    width: 99%;
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+ul li {
+    display: block;
+    position: relative;
+    float: left;
+    border:1px solid #000
+}
+
+li ul {
+    display: none;
+}
+
+ul li a {
+    display: block;
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0.17, #1132F0),
+            color-stop(1, #1E202B)
+    );
+    background-image: -o-linear-gradient(bottom, #1132F0 17%, #1E202B 100%);
+    background-image: -moz-linear-gradient(bottom, #1132F0 17%, #1E202B 100%);
+    background-image: -webkit-linear-gradient(bottom, #1132F0 17%, #1E202B 100%);
+    background-image: -ms-linear-gradient(bottom, #1132F0 17%, #1E202B 100%);
+    background-image: linear-gradient(to bottom, #1132F0 17%, #1E202B 100%);
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+    white-space: nowrap;
+    color: #fff;
+    text-align: center;
+}
+
+ul li a:hover {
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0.17, #0EAEF2),
+            color-stop(1, #1E202B)
+    );
+    background-image: -o-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -moz-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -webkit-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -ms-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: linear-gradient(to bottom, #0EAEF2 17%, #1E202B 100%);
+}
+
+li:hover ul {
+    display: block;
+    position: absolute;
+}
+
+li:hover li {
+    float: none;
+}
+
+li:hover a {
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0.17, #250EF2),
+            color-stop(1, #1E202B)
+    );
+    background-image: -o-linear-gradient(bottom, #250EF2 17%, #1E202B 100%);
+    background-image: -moz-linear-gradient(bottom, #250EF2 17%, #1E202B 100%);
+    background-image: -webkit-linear-gradient(bottom, #250EF2 17%, #1E202B 100%);
+    background-image: -ms-linear-gradient(bottom, #250EF2 17%, #1E202B 100%);
+    background-image: linear-gradient(to bottom, #250EF2 17%, #1E202B 100%);
+
+}
+
+li:hover li a:hover {
+    background-image: -webkit-gradient(
+            linear,
+            left top,
+            left bottom,
+            color-stop(0.17, #0EAEF2),
+            color-stop(1, #1E202B)
+    );
+    background-image: -o-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -moz-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -webkit-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: -ms-linear-gradient(bottom, #0EAEF2 17%, #1E202B 100%);
+    background-image: linear-gradient(to bottom, #0EAEF2 17%, #1E202B 100%);
+}
+
+#drop-nav li ul li {
+    border-top: 1px;
+}

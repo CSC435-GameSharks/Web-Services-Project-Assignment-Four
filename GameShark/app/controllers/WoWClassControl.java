@@ -5,6 +5,13 @@ import play.data.Form;
 import play.mvc.*;
 import play.data.Form;
 import scala.collection.immutable.List;
+import play.db.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 
 /**
@@ -13,13 +20,16 @@ import scala.collection.immutable.List;
 public class WoWClassControl extends Controller {
 
     public static Result getWoWClass(){
+        String sout = "";
         Form<WoWFormClass> classForm = Form.form(WoWFormClass.class);
         WoWFormClass wowFormClass = classForm.bindFromRequest().get();
+        WoWClassDetail wowClass;
 
         //Make WoWClass Detail
         String tempName = "Warrior";
         int tempClassID = 1;
         String tempSpecID = "0";
+        String sSQL = "";
 
         if(wowFormClass.classID != null){
             tempClassID = Integer.parseInt(wowFormClass.classID);
@@ -32,16 +42,164 @@ public class WoWClassControl extends Controller {
 
         if(wowFormClass.specID != null){
             tempSpecID = wowFormClass.specID;
+        }else{
+            wowFormClass.specID = "0";
         }
-        WoWClassDetail wowClass = new WoWClassDetail(tempName, tempClassID, "Insert Bio Here");
-        WoWSpell[] wowSpells = initSpells();
-        WoWTalent[] wowTalents = initTalents();
-        WoWSpec[] wowSpecs = initSpecs();
-        String[] aryRoles = {"Role 1","Role 2","Role 3"};
-        wowClass.setRoles(aryRoles);
 
-        response().setContentType("text/html");
-        return ok(views.html.wowclass.render(wowClass, wowSpells, wowTalents, wowSpecs, Integer.parseInt(tempSpecID)));
+
+        try{
+            Connection connection = DB.getConnection();
+            //Statement stmt = connection.createStatement();
+            int indexCounter = 0;
+            //ArrayList<String> aryRoles = new ArrayList<String>();
+            //ArrayList<WoWSpec> wowSpecs = new ArrayList<WoWSpec>();
+            //ArrayList<WoWSpell> wowSpells = new ArrayList<WoWSpell>();
+            String[] aryRoles;
+            WoWSpec[] wowSpecs;
+            WoWSpell[] wowSpells;
+            WoWTalent[] wowTalents;
+            PreparedStatement stmt; //= connection.prepareStatement("");
+            ResultSet rset;
+
+            sout = "Starting WOW Class::";
+            //Make Initial Class
+            sSQL = "SELECT * FROM wowClass WHERE classID=?";// + wowFormClass.classID;
+            stmt = connection.prepareStatement(sSQL);
+            //stmt.setObject(1, 1);
+            stmt.setObject(1,(wowFormClass.classID != null) ? wowFormClass.classID : 1);
+            rset = stmt.executeQuery();
+            sout += "HERE";
+            rset.next();
+            sout += "HERE";
+            wowClass = new WoWClassDetail(rset.getString("className"), rset.getInt("classID"),
+                    " ", ((wowFormClass.specID != null) ? Integer.parseInt(wowFormClass.specID) : 0));
+
+            sout += "END WOW CLASS::STARTING ROLES::";
+            //Get Roles For Class
+            sSQL = "SELECT COUNT(*) AS rowCount FROM wowClassRoles WHERE classID=?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1,wowClass.getID());
+            rset = stmt.executeQuery();
+            rset.next();
+            aryRoles = new String[rset.getInt("rowCount")];
+
+            sSQL = "SELECT r.roleID, r.roleName FROM wowRoles r INNER JOIN wowClassRoles cr " +
+                    " ON r.roleID = cr.roleID WHERE cr.classID=?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1, wowClass.getID());
+            rset = stmt.executeQuery();
+            while(rset.next()){
+                //aryRoles.add(rset.getString("roleName"));
+                aryRoles[indexCounter] = rset.getString("roleName");
+                indexCounter ++;
+            }
+
+            sout += "END ROLES::STARTING SPECS";
+            //Get Specs for the class
+            sSQL = "SELECT COUNT(*) AS rowCount FROM wowSpecializations WHERE classID =?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1, wowClass.getID());
+            rset = stmt.executeQuery();
+            rset.next();
+            wowSpecs = new WoWSpec[rset.getInt("rowCount")];
+
+            sSQL = "SELECT specName, specID FROM wowSpecializations WHERE classID=?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1,wowClass.getID());
+            rset = stmt.executeQuery();
+            indexCounter = 0;
+            while(rset.next()){
+                //wowSpecs.add(new WoWSpec(rset.getString("specName"), rset.getInt("specID")));
+                wowSpecs[indexCounter] = new WoWSpec(rset.getString("specName"), rset.getInt("specID"));
+                indexCounter ++;
+            }
+
+            sout += "END SPECS:: STARTING SPELLS";
+            //Get the spells for the class and spec
+            sSQL = "SELECT COUNT(*) AS rowCount FROM (SELECT lvl, spellName FROM wowClassSpells " +
+                    " WHERE classID=1 UNION SELECT lvl, spellName FROM wowSpecSpells WHERE specID=0" +
+                    " ) temp";
+            stmt = connection.prepareStatement(sSQL);
+            //stmt.setObject(1, wowClass.getID());
+            //stmt.setObject(2, wowFormClass.specID);
+            rset = stmt.executeQuery();
+            rset.next();
+            wowSpells = new WoWSpell[rset.getInt("rowCount")];
+
+            indexCounter = 0;
+            sSQL = "SELECT lvl, spellName FROM  (SELECT lvl, spellName FROM wowClassSpells " +
+                    "WHERE classID=1 UNION SELECT lvl, spellName FROM wowSpecSpells WHERE specID=0) temp ORDER BY temp.lvl";
+            stmt = connection.prepareStatement(sSQL);
+            //stmt.setObject(1, wowClass.getID());
+            //stmt.setObject(2, wowFormClass.specID);
+            rset = stmt.executeQuery();
+            //rset.next();
+            sout = "";
+            while(rset.next()){
+                if(rset.getString("spellName") != null && rset.getString("lvl") != null){
+                    sout += "loop: " + indexCounter + ": ";
+                    sout += rset.getString("spellName") + ";";
+                    sout += rset.getInt("lvl") + "\n" ;
+                    wowSpells[indexCounter] = new WoWSpell(rset.getString("spellName"), rset.getInt("lvl"), indexCounter);
+                    indexCounter ++;
+                }
+            }
+            sout += "END SPELLS: " + wowSpells.length + ": STARTING TALENTS";
+
+            //wowClass = new WoWClassDetail(tempName, tempClassID, "Insert Bio Here", 2);
+            //wowSpecs = initSpecs();
+            //wowSpells = initSpells();
+
+            sSQL = "SELECT COUNT(*) AS rowCount FROM wowTalents WHERE classID=? AND specID=?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1, wowClass.getID());
+            stmt.setObject(2, wowFormClass.specID);
+            rset = stmt.executeQuery();
+            rset.next();
+            wowTalents = new WoWTalent[rset.getInt("rowCount")];
+
+            indexCounter = 0;
+            sSQL = "SELECT talentName, lvl FROM wowTalents WHERE classID=? AND specID=?";
+            stmt = connection.prepareStatement(sSQL);
+            stmt.setObject(1, wowClass.getID());
+            stmt.setObject(2, wowFormClass.specID);
+            rset = stmt.executeQuery();
+            while(rset.next()){
+                wowTalents[indexCounter] = new WoWTalent(rset.getString("talentName"), rset.getInt("lvl"), indexCounter);
+                indexCounter ++;
+            }
+
+            //wowTalents = initTalents();
+
+
+
+            //String[] aryRoles = {"Role 1","Role 2","Role 3"};
+            //wowClass.setRoles(aryRoles);
+            //wowClass.setSpecs(wowSpecs);
+            //wowClass.setSpells(wowSpells);
+            //wowClass.setTalents(wowTalents);
+
+            if(WoWClassDetail.find.byId(wowClass.getID()) != null){
+
+            }else{
+                wowClass.save();
+            }
+
+            for(int i = 0; i < wowSpells.length; i++){
+                
+            }
+
+
+
+            sout += ":::END TALENTSss";
+            response().setContentType("text/html");
+            return ok(views.html.wowclass.render(wowClass, wowSpells, wowTalents, wowSpecs, Integer.parseInt(wowFormClass.specID)));
+        }catch (Exception ex){
+            return internalServerError("::::" +  ex.toString());
+        }
+
+
+
     }
 
     private static WoWSpell[] initSpells(){

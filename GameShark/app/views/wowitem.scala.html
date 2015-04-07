@@ -5,248 +5,278 @@
 <head lang="en">
   <meta charset="UTF-8">
   <title>GameShark</title>
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/menu.css")">
 </head>
 <body>
-  <h2>
-    WoW Gear
-  </h2>
-  <div>
-    <span>Please go to the following link to get item ids for this site.  WoWs API needs item ids not names :(</span>
-    </br>
-    <span><a href="http://us.battle.net/wow/en/item/">http://us.battle.net/wow/en/item/</a></span>
+  <div class="navDiv">
+    <ul id="drop-nav">
+      <li class="topLvl"><a href="#">Home</a></li>
+      <li class="topLvl"><a href="#">LoL</a>
+        <ul class="fill">
+          <li class="fill"><a class="lolanc" href="#">Server Status</a></li>
+          <li class="fill"><a class="lolanc" href="#">Summoner Lookup</a></li>
+          <li class="fill"><a class="lolanc" href="#">Build-a-Build</a></li>
+        </ul>
+      </li>
+      <li class="topLvl"><a href="#">Diablo</a>
+        <ul class="fill">
+          <li class="fill"><a class="diaanc" href="#">Diablo Career</a></li>
+          <li class="fill"><a class="diaanc" href="#">Diablo Follower</a></li>
+          <li class="fill"><a class="diaanc" href="#">Diablo Item</a></li>
+        </ul>
+      </li>
+      <li class="topLvl"><a href="/">WoW</a>
+        <ul class="fill">
+          <li class="fill"><a class="wowanc" href="/WoWServer">Server Status</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWCharacter">Character Info</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWClass">Class Info</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWItem">Build-a-Build</a></li>
+        </ul>
+      </li>
+    </ul>
   </div>
-  <form action="@routes.WoWItemControl.getWoWItem()" method="post">
+  <div style="padding-top: 10px;">
+    <h2>
+      WoW Gear
+    </h2>
     <div>
-      <table>
-        <tr>
-          <td>
-            <table>
-              <tr>
-                <th colspan="2">
-                  Armor
-                </th>
-              </tr>
-              <tr>
-                <td>
-                  Head:
-                </td>
-                <td>
-                  @if(wowFormItem != null){
-                    <input type="text" id="txtHead" name="head" value="@wowFormItem.head" >
-                  }else{
-                    <input type="text" id="txtHead" name="head">
-                  }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Shoulder:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtShoulder" name="shoulder" value="@wowFormItem.shoulder" >
-                }else{
-                  <input type="text" id="txtShoulder" name="shoulder" >
-                  }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Chest/Body:
-                </td>
-                <td>
-                  @if(wowFormItem != null){
-                    <input type="text" id="txtChest" name="chest" value="@wowFormItem.chest" >
-                  }else{
-                    <input type="text" id="txtChest" name="chest" >
-                  }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Back/Cloak:
-                </td>
-                <td>
-                  @if(wowFormItem != null){
-                    <input type="text" id="txtBack" name="back" value="@wowFormItem.back" >
-                  }else{
-                    <input type="text" id="txtBack" name="back">
-                  }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Wrist:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtWrist" name="wrist" value="@wowFormItem.wrist" >
-                }else{
-                  <input type="text" id="txtWrist" name="wrist" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Hands:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtHands" name="hands" value="@wowFormItem.hands" >
-                }else{
-                  <input type="text" id="txtHands" name="hands" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Waist:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtWaist" name="waist" value="@wowFormItem.waist" >
-                }else{
-                  <input type="text" id="txtWaist" name="waist" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Legs:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtLegs" name="legs" value="@wowFormItem.legs" >
-                }else{
-                  <input type="text" id="txtLegs" name="legs" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Feet:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtFeet" name="feet" value="@wowFormItem.feet" >
-                }else{
-                  <input type="text" id="txtFeet" name="feet"  >
-                }
-                </td>
-              </tr>
-              <tr>
-                <th colspan="2">
-                  Weapons
-                </th>
-              </tr>
-              <tr>
-                <td>
-                  Main Hand:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtMainHand" name="maindHand" value="@wowFormItem.mainHand" >
-                }else{
-                  <input type="text" id="txtMainHand" name="maindHand" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Off Hand:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtOffHand" name="offHand" value="@wowFormItem.offHand" >
-                }else{
-                  <input type="text" id="txtOffHand" name="offHand" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <th colspan="2">
-                  Accessories
-                </th>
-              </tr>
-              <tr>
-                <td>
-                  Neck:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtNeck" name="neck" value="@wowFormItem.neck" >
-                }else{
-                  <input type="text" id="txtNeck" name="neck" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Trinket:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtTrinket1" name="trinket1" value="@wowFormItem.trinket1" >
-                }else{
-                  <input type="text" id="txtTrinket1" name="trinket1" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Trinket:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtTrinket2" name="trinket2" value="@wowFormItem.trinket2" >
-                }else{
-                  <input type="text" id="txtTrinket2" name="trinket2" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Finger:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtFinger1" name="finger1" value="@wowFormItem.finger1" >
-                }else{
-                  <input type="text" id="txtFinger1" name="finger1" >
-                }
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  Finger:
-                </td>
-                <td>
-                @if(wowFormItem != null){
-                  <input type="text" id="txtFinger2" name="finger2" value="@wowFormItem.finger2" >
-                }else{
-                  <input type="text" id="txtFinger2" name="finger2" >
-                }
-                </td>
-              </tr>
-            </table>
-          </td>
-          <td>
-            <table>
-              <tr><td>STR:</td><td>@wowStats.str</td></tr>
-              <tr><td>AGI:</td><td>@wowStats.agi</td></tr>
-              <tr><td>STA:</td><td>@wowStats.sta</td></tr>
-              <tr><td>INT:</td><td>@wowStats.ints</td></tr>
-              <tr><td>SPI:</td><td>@wowStats.spi</td></tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <button>Submit</button>
-          </td>
-        </tr>
-      </table>
+      <span>Please go to the following link to get item ids for this site.  WoWs API needs item ids not names :(</span>
+      </br>
+      <span><a href="http://us.battle.net/wow/en/item/">http://us.battle.net/wow/en/item/</a></span>
     </div>
-  </form>
+    <form action="@routes.WoWItemControl.getWoWItem()" method="post">
+      <div>
+        <table>
+          <tr>
+            <td>
+              <table>
+                <tr>
+                  <th colspan="2">
+                    Armor
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    Head:
+                  </td>
+                  <td>
+                    @if(wowFormItem != null){
+                      <input type="text" id="txtHead" name="head" value="@wowFormItem.head" >
+                    }else{
+                      <input type="text" id="txtHead" name="head">
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Shoulder:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtShoulder" name="shoulder" value="@wowFormItem.shoulder" >
+                  }else{
+                    <input type="text" id="txtShoulder" name="shoulder" >
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Chest/Body:
+                  </td>
+                  <td>
+                    @if(wowFormItem != null){
+                      <input type="text" id="txtChest" name="chest" value="@wowFormItem.chest" >
+                    }else{
+                      <input type="text" id="txtChest" name="chest" >
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Back/Cloak:
+                  </td>
+                  <td>
+                    @if(wowFormItem != null){
+                      <input type="text" id="txtBack" name="back" value="@wowFormItem.back" >
+                    }else{
+                      <input type="text" id="txtBack" name="back">
+                    }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Wrist:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtWrist" name="wrist" value="@wowFormItem.wrist" >
+                  }else{
+                    <input type="text" id="txtWrist" name="wrist" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Hands:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtHands" name="hands" value="@wowFormItem.hands" >
+                  }else{
+                    <input type="text" id="txtHands" name="hands" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Waist:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtWaist" name="waist" value="@wowFormItem.waist" >
+                  }else{
+                    <input type="text" id="txtWaist" name="waist" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Legs:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtLegs" name="legs" value="@wowFormItem.legs" >
+                  }else{
+                    <input type="text" id="txtLegs" name="legs" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Feet:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtFeet" name="feet" value="@wowFormItem.feet" >
+                  }else{
+                    <input type="text" id="txtFeet" name="feet"  >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    Weapons
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    Main Hand:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtMainHand" name="maindHand" value="@wowFormItem.mainHand" >
+                  }else{
+                    <input type="text" id="txtMainHand" name="maindHand" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Off Hand:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtOffHand" name="offHand" value="@wowFormItem.offHand" >
+                  }else{
+                    <input type="text" id="txtOffHand" name="offHand" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    Accessories
+                  </th>
+                </tr>
+                <tr>
+                  <td>
+                    Neck:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtNeck" name="neck" value="@wowFormItem.neck" >
+                  }else{
+                    <input type="text" id="txtNeck" name="neck" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Trinket:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtTrinket1" name="trinket1" value="@wowFormItem.trinket1" >
+                  }else{
+                    <input type="text" id="txtTrinket1" name="trinket1" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Trinket:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtTrinket2" name="trinket2" value="@wowFormItem.trinket2" >
+                  }else{
+                    <input type="text" id="txtTrinket2" name="trinket2" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Finger:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtFinger1" name="finger1" value="@wowFormItem.finger1" >
+                  }else{
+                    <input type="text" id="txtFinger1" name="finger1" >
+                  }
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Finger:
+                  </td>
+                  <td>
+                  @if(wowFormItem != null){
+                    <input type="text" id="txtFinger2" name="finger2" value="@wowFormItem.finger2" >
+                  }else{
+                    <input type="text" id="txtFinger2" name="finger2" >
+                  }
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <td>
+              <table>
+                <tr><td>STR:</td><td>@wowStats.str</td></tr>
+                <tr><td>AGI:</td><td>@wowStats.agi</td></tr>
+                <tr><td>STA:</td><td>@wowStats.sta</td></tr>
+                <tr><td>INT:</td><td>@wowStats.ints</td></tr>
+                <tr><td>SPI:</td><td>@wowStats.spi</td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button>Submit</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

@@ -1,12 +1,21 @@
 package models;
 
+import java.util.*;
+import javax.persistence.*;
+
+import play.db.ebean.*;
+import play.data.format.*;
+import play.data.validation.*;
+
+
 /**
  * Created by kirito on 3/25/15.
  */
 /**
  *This class is used to make a WoW Spec Object
  */
-public class WoWSpec {
+@Entity
+public class WoWSpec extends Model {
     private int specID;
     private String sName;
 

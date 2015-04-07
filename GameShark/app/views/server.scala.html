@@ -6,35 +6,65 @@
   <meta charset="UTF-8">
   <title>WoW Server</title>
   <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/WoWStyle.css")">
+  <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/menu.css")">
 </head>
 <body>
-  <h3>
-    Server Status
-  </h3>
-  <div>
-    <table class="serverTable">
-      <caption>
-        WoW Server Status
-      </caption>
-      <tr>
-        <th>
-          Name
-        </th>
-        <th>
-          Status
-        </th>
-      </tr>
-      @for(a <- wowServer){
+  <div class="navDiv">
+    <ul id="drop-nav">
+      <li class="topLvl"><a href="#">Home</a></li>
+      <li class="topLvl"><a href="#">LoL</a>
+        <ul class="fill">
+          <li class="fill"><a class="lolanc" href="#">Server Status</a></li>
+          <li class="fill"><a class="lolanc" href="#">Summoner Lookup</a></li>
+          <li class="fill"><a class="lolanc" href="#">Build-a-Build</a></li>
+        </ul>
+      </li>
+      <li class="topLvl"><a href="#">Diablo</a>
+        <ul class="fill">
+          <li class="fill"><a class="diaanc" href="#">Diablo Career</a></li>
+          <li class="fill"><a class="diaanc" href="#">Diablo Follower</a></li>
+          <li class="fill"><a class="diaanc" href="#">Diablo Item</a></li>
+        </ul>
+      </li>
+      <li class="topLvl"><a href="/">WoW</a>
+        <ul class="fill">
+          <li class="fill"><a class="wowanc" href="/WoWServer">Server Status</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWCharacter">Character Info</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWClass">Class Info</a></li>
+          <li class="fill"><a class="wowanc" href="/WoWItem">Build-a-Build</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div style="padding-top: 10px;">
+    <h3>
+      Server Status
+    </h3>
+    <div>
+      <table class="serverTable">
+        <caption>
+          WoW Server Status
+        </caption>
         <tr>
-          <td>
-            @a.getName()
-          </td>
-          <td>
-            @a.getStatus()
-          </td>
+          <th>
+            Name
+          </th>
+          <th>
+            Status
+          </th>
         </tr>
-      }
-    </table>
+        @for(a <- wowServer){
+          <tr>
+            <td>
+              @a.getName()
+            </td>
+            <td>
+              @a.getStatus()
+            </td>
+          </tr>
+        }
+      </table>
+    </div>
   </div>
 </body>
 </html>

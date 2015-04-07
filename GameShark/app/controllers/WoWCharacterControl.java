@@ -23,7 +23,7 @@ public class WoWCharacterControl extends Controller {
             Date timeStamp = new Date(session("timeStamp"));
             Date currentTime = new Date();
             Long timeDiff = (currentTime.getTime() - timeStamp.getTime()) / 1000;
-            if(timeDiff > 300){
+            if(timeDiff > 20){
                 session().clear();
                 name = null;
                 realm = null;
