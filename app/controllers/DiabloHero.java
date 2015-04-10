@@ -1,27 +1,20 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import views.html.*;
-import javax.json.*;
-import java.util.*;
-import java.io.*;
-import Diablo.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.net.MalformedURLException;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import play.mvc.*;
-import play.libs.ws.*;
-import play.libs.F.Function;
-import play.libs.F.Promise;
+import models.Hero;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.diabloHero;
 public class DiabloHero extends Controller {
     /**
-     * @return A Diablo Career using the user supplied realm and character name
+     * @return A models Career using the user supplied realm and character name
      */
     private static Hero makeServerAPIRequest(String battleID, String strHero){
         Hero diabloHero = null;
@@ -46,8 +39,20 @@ public class DiabloHero extends Controller {
         return diabloHero;
     }
 
-    public static Result index(String battleID, String hero) {
-    	return ok(diabloHero.render(makeServerAPIRequest(battleID, hero)));
+    public static Result index(String battleId, String hero) {
+    	return ok(diabloHero.render(makeServerAPIRequest(battleId, hero)));
     }
-
+    
+    public static Result getJson(String battleId, String hero){
+    	if(!battleId.equals("") && !hero.equals("")){
+    		Hero myHero = makeServerAPIRequest(battleId, hero);
+    		if(myHero!=null){
+    			return ok(play.libs.Json.toJson(myHero));
+    		}else{
+    			return badRequest("The hero associated with battleId="+battleId+" and hero="+hero+" does not exist.");
+    		}
+    	}else{
+    		return badRequest("The battleTagName and the battleTagId must not be empty");
+    	}
+    }
 }

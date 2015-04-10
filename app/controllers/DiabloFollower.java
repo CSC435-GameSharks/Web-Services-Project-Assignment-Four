@@ -1,28 +1,31 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
-import views.html.*;
-import javax.json.*;
-import java.util.*;
-import java.io.*;
-import Diablo.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.net.MalformedURLException;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import play.mvc.*;
-import play.libs.ws.*;
-import play.libs.F.Function;
-import play.libs.F.Promise;
+import models.Follower;
+import play.mvc.Controller;
+import play.mvc.Result;
+import views.html.diabloFollower;
 public class DiabloFollower extends Controller {
     public static Result index(String follower) {
-
-    	return ok(diabloFollower.render(!follower.equals(""),makeServerAPIRequest(follower)));
+        if(follower.equals("")){
+            return ok(diabloFollower.render(false,null));
+        }
+    	return ok(diabloFollower.render(true,makeServerAPIRequest(follower)));
+    }
+    public static Result getJson(String follower){
+    	Follower myFollower = makeServerAPIRequest(follower);
+    	if(myFollower!=null){
+    		return ok(play.libs.Json.toJson(myFollower));
+    	}else{
+    		return badRequest("There is no follower " + follower);
+    	}
     }
     private static Follower makeServerAPIRequest(String strFollower){
         Follower diabloFollower = null;

@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Diablo;
-import java.util.List;
-import java.util.ArrayList;
+package models;
 import javax.json.*;
 /**
  *

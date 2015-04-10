@@ -1,15 +1,35 @@
-package Diablo;
+package models;
 
 import javax.json.*;
-import java.util.Map;
+
 import java.util.LinkedHashMap;
-public class Item{
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import play.db.ebean.Model;
+import play.data.validation.*;
+
+
+@Entity
+@Table (name = "items")
+public class Item extends Model{
+	private static final long serialVersionUID = -1755646676202909709L;
 	public static final String IMAGE_URL_PREFIX="http://media.blizzard.com/d3/icons/items/large/";
+	@Id
 	private String id;
+	public static Finder<String, Item> find
+    = new Model.Finder<>(String.class, Item.class);
+	@Constraints.Required
 	private String name; 	
+	@Constraints.Required
 	private String icon;
+	@Constraints.Required
 	private String displayColor;
+	@Constraints.Required
 	private String tooltipParams;
+	@Constraints.Required
 	private LinkedHashMap<String, Double> rawAttributes;
 	public Item(JsonObject objIn){
 		this.id=objIn.getString("id");
@@ -26,28 +46,32 @@ public class Item{
         	}
     	}
 	}
-	public Item(String tooltipParams,LinkedHashMap<String, Double> rawAttributes){
-		this.rawAttributes=rawAttributes;
+	public void setId(String id){
+		this.id=id;
 	}
-	//public String toHtmlString(){
-    //    StringBuilder sbReturn = new StringBuilder();
-    //    sbReturn.append("           </br>\n");
-    //    sbReturn.append("Name:    " + this.getName()+ "</br>\n");
-    //    sbReturn.append("<img src=\"" + IMAGE_URL_PREFIX + this.getIcon() + ".png\">" + "</br>\n");
-    //    return sbReturn.toString();
-	//}
-
 	public String getId(){
 		return id;
+	}
+	public void setName(String name){
+		this.name=name;
 	}
 	public String getName(){
 		return name;
 	}
+	public void setIcon(String icon){
+		this.icon=icon;
+	}
 	public String getIcon(){
 		return icon;
 	}
+	public void setDisplayColor(String displayColor){
+		this.displayColor=displayColor;
+	}
 	public String getDisplayColor(){
 		return displayColor;
+	}
+	public void setTooltipParams(String tooltipParams){
+		this.tooltipParams=tooltipParams;
 	}
 	public String getTooltipParams(){
 		return tooltipParams;

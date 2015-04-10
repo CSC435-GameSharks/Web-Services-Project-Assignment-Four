@@ -1,5 +1,4 @@
-package Diablo;
-import java.util.Map;
+package models;
 import java.util.List;
 import java.util.LinkedHashMap;
 public class ItemBuilder{

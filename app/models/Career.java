@@ -3,25 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Diablo;
+package models;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.JsonValue;
 /**
  *
- * @author csaroff
+ * @author Chaskin Saroff
  */
 public class Career {
     private String battleTag;

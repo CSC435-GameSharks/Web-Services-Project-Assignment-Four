@@ -1,10 +1,12 @@
-package Diablo;
+package models;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+
 import javax.json.*;
+
 /**
  *
  * @author csaroff
@@ -49,10 +51,13 @@ public class Hero {
 
         JsonObject jsonItems = objIn.getJsonObject("items");
         items = new HashMap<String, Item>();
-        for(String itemKey : jsonItems.keySet()){
-            items.put(itemKey, new Item((JsonObject)jsonItems.get(itemKey)));
+        for(String key: jsonItems.keySet()){
+        	
+        	String id = ((JsonObject)(jsonItems.get(key))).getString("id");
+        	System.out.println(key + ": " + id);
+            items.put(key, controllers.DiabloItem.makeServerAPIRequest(id));
         }
-
+        
         JsonObject jsonStats = objIn.getJsonObject("stats");
         stats = new LinkedHashMap<String, Double>();
         for(String statKey : jsonStats.keySet()){
