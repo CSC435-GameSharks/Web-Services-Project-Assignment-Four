@@ -30,7 +30,10 @@ public class DiabloCareer extends Controller {
             JsonReader jsonReader = Json.createReader(is);
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
-            diabloPlayer = new Career(jsonObject);
+            if(jsonObject!=null)
+                diabloPlayer = new Career(jsonObject);
+            else
+                return null;
         } catch(Exception e){
         	e.printStackTrace();
         }finally {
